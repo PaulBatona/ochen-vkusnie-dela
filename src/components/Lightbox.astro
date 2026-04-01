@@ -4,39 +4,61 @@
 
 <div
   id="lightbox"
-  class="fixed inset-0 z-50 bg-stone-900/90 backdrop-blur-sm hidden items-center justify-center p-4"
-  onclick="closeLightbox()"
+  class="fixed inset-0 z-50 bg-stone-900/95 backdrop-blur-md hidden items-center justify-center p-4"
 >
+  <!-- Затемнённая область для закрытия по клику -->
+  <div 
+    class="absolute inset-0" 
+    id="lightbox-overlay"
+  ></div>
+  
+  <!-- Кнопка закрытия (вне контейнера с overflow) -->
   <button
-    class="absolute top-4 right-4 text-stone-400 hover:text-brand-pink transition-colors text-4xl font-bold z-50"
-    onclick="closeLightbox()"
+    id="lightbox-close"
+    class="fixed top-6 right-6 text-stone-400 hover:text-brand-pink transition-colors text-5xl font-bold z-50"
     aria-label="Закрыть"
   >
     &times;
   </button>
+  
+  <!-- Контент лайтбокса -->
+  <div class="relative z-10 max-w-5xl w-full flex flex-col items-center gap-4 sm:gap-6 py-12 px-4">
+    <!-- Изображение -->
+    <div class="w-full flex justify-center">
+      <img
+        id="lightbox-image"
+        src=""
+        alt=""
+        class="max-w-full max-h-[50vh] sm:max-h-[60vh] object-contain rounded-lg shadow-2xl border-2 border-brand-pink/30"
+      />
+    </div>
 
-  <div class="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center">
-    <img
-      id="lightbox-image"
-      src=""
-      alt=""
-      class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-      onclick="event.stopPropagation()"
-    />
+    <!-- Информация о блюде -->
+    <div class="text-center max-w-xl">
+      <h2 id="lightbox-title" class="text-xl sm:text-2xl md:text-3xl font-bold text-brand-pink mb-2 sm:mb-3 neon-text" />
+      <p id="lightbox-description" class="text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed mb-3 sm:mb-4" />
+      <p id="lightbox-price" class="text-white text-lg sm:text-xl font-semibold text-brand-pink" />
+    </div>
   </div>
-  <p id="lightbox-caption" class="absolute bottom-8 left-0 right-0 text-center text-white text-lg font-semibold" />
 </div>
 
 <script>
-  // Функция открытия lightbox
-  function openLightbox(imageSrc: string, caption: string) {
-    const lightbox = document.getElementById('lightbox') as HTMLElement;
-    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
-    const lightboxCaption = document.getElementById('lightbox-caption') as HTMLElement;
+  // Элементы
+  const lightbox = document.getElementById('lightbox') as HTMLElement;
+  const lightboxOverlay = document.getElementById('lightbox-overlay') as HTMLElement;
+  const lightboxClose = document.getElementById('lightbox-close') as HTMLButtonElement;
+  const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+  const lightboxTitle = document.getElementById('lightbox-title') as HTMLHeadingElement;
+  const lightboxDescription = document.getElementById('lightbox-description') as HTMLParagraphElement;
+  const lightboxPrice = document.getElementById('lightbox-price') as HTMLParagraphElement;
 
-    if (lightbox && lightboxImage && lightboxCaption) {
+  // Функция открытия lightbox
+  function openLightbox(imageSrc: string, title: string, description: string, price: string) {
+    if (lightbox && lightboxImage && lightboxTitle && lightboxDescription && lightboxPrice) {
       lightboxImage.src = imageSrc;
-      lightboxCaption.textContent = caption;
+      lightboxTitle.textContent = title;
+      lightboxDescription.textContent = description;
+      lightboxPrice.textContent = price;
       lightbox.classList.remove('hidden');
       lightbox.classList.add('flex');
       document.body.style.overflow = 'hidden';
@@ -45,13 +67,22 @@
 
   // Функция закрытия lightbox
   function closeLightbox() {
-    const lightbox = document.getElementById('lightbox') as HTMLElement;
     if (lightbox) {
       lightbox.classList.add('hidden');
       lightbox.classList.remove('flex');
       document.body.style.overflow = '';
     }
   }
+
+  // Обработчики закрытия
+  lightboxClose?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeLightbox();
+  });
+
+  lightboxOverlay?.addEventListener('click', () => {
+    closeLightbox();
+  });
 
   // Закрытие по ESC
   document.addEventListener('keydown', (e) => {
@@ -60,33 +91,25 @@
     }
   });
 
+  // Остановка всплытия на контенте
+  lightbox.querySelector('.relative')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
   // Навешиваем обработчики на карточки
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('[data-lightbox-target]');
     cards.forEach(card => {
       card.addEventListener('click', () => {
         const imageSrc = card.getAttribute('data-lightbox-target');
-        const caption = card.getAttribute('data-caption');
+        const title = card.getAttribute('data-caption');
+        const description = card.getAttribute('data-description');
+        const price = card.getAttribute('data-price');
 
         if (imageSrc) {
-          openLightbox(imageSrc, caption || '');
+          openLightbox(imageSrc, title || '', description || '', price || '');
         }
       });
     });
   });
 </script>
-
-<style>
-  #lightbox {
-    animation: fadeIn 0.3s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-</style>

@@ -17,7 +17,8 @@ const menu = menuItems as MenuItem[];
 <section class="py-8 px-4">
   <div class="max-w-6xl mx-auto">
     <!-- Bento Grid Container -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 auto-rows-[180px]">
+    <!-- Мобильные: 1 колонка, Планшет: 2 колонки, PC: 4 колонки -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 auto-rows-[250px] sm:auto-rows-[200px] lg:auto-rows-[180px]">
       {
         menu.map((item) => (
           <MenuCard
