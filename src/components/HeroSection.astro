@@ -1,0 +1,33 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { title = "Очень вкусные дела", subtitle = "Меню завтраков" } = Astro.props;
+---
+
+<section class="relative py-12 sm:py-16 px-4">
+  <!-- Фоновый декоративный элемент -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+    <div class="w-96 h-96 bg-brand-pink/5 rounded-full blur-3xl" />
+  </div>
+  
+  <div class="relative z-10 text-center space-y-4">
+    <!-- Основной заголовок с неоновым эффектом -->
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">
+      <span class="text-brand-pink neon-text">
+        {title}
+      </span>
+    </h1>
+    
+    <!-- Подзаголовок с обрамлением -->
+    <div class="flex items-center justify-center gap-4">
+      <span class="w-16 h-px bg-brand-pink/40" />
+      <p class="text-lg sm:text-xl text-stone-600 font-medium tracking-wide uppercase">
+        {subtitle}
+      </p>
+      <span class="w-16 h-px bg-brand-pink/40" />
+    </div>
+  </div>
+</section>

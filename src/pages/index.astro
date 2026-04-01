@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import BentoGrid from '../components/BentoGrid.astro';
+import Lightbox from '../components/Lightbox.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Очень вкусные дела - Меню завтраков">
+  <main class="min-h-screen">
+    <!-- Hero секция -->
+    <HeroSection />
+
+    <!-- Bento Grid с меню -->
+    <BentoGrid />
+
+    <!-- Lightbox для просмотра изображений -->
+    <Lightbox />
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+</Layout>

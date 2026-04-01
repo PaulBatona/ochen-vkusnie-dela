@@ -1,0 +1,58 @@
+---
+interface Props {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+  bentoSize: 'small' | 'wide' | 'tall';
+}
+
+const { id, title, description, price, image, bentoSize } = Astro.props;
+
+// Определяем размеры карточки для Bento-сетки
+const sizeClasses = {
+  small: 'col-span-1 row-span-1',
+  wide: 'col-span-2 row-span-1',
+  tall: 'col-span-1 row-span-2',
+};
+
+const bentoClass = sizeClasses[bentoSize] || sizeClasses.small;
+---
+
+<article class={`bento-card ${bentoClass} group cursor-pointer shadow-md hover:shadow-xl border border-stone-200`} data-lightbox-target={image} data-caption={title}>
+  <!-- Изображение -->
+  <div class="absolute inset-0">
+    <img
+      src={image}
+      alt={title}
+      loading="lazy"
+      decoding="async"
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+    />
+  </div>
+  
+  <!-- Тёмный градиент для читаемости текста -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+  
+  <!-- Контент карточки -->
+  <div class="absolute inset-0 z-10 flex flex-col justify-end p-4 sm:p-6">
+    <!-- Цена в правом верхнем углу -->
+    <div class="absolute top-3 right-3 bg-brand-pink text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow-lg">
+      {price}
+    </div>
+    
+    <!-- Название и описание -->
+    <div class="space-y-2">
+      <h3 class="text-lg sm:text-xl font-bold text-white group-hover:text-brand-pink transition-colors">
+        {title}
+      </h3>
+      <p class="text-xs sm:text-sm text-white/90 line-clamp-2">
+        {description}
+      </p>
+    </div>
+  </div>
+  
+  <!-- Эффект свечения при hover -->
+  <div class="absolute inset-0 border-2 border-brand-pink/0 group-hover:border-brand-pink/40 rounded-2xl transition-colors duration-300 pointer-events-none" />
+</article>

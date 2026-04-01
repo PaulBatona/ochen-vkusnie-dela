@@ -1,0 +1,92 @@
+---
+// Lightbox компонент для просмотра изображений
+---
+
+<div
+  id="lightbox"
+  class="fixed inset-0 z-50 bg-stone-900/90 backdrop-blur-sm hidden items-center justify-center p-4"
+  onclick="closeLightbox()"
+>
+  <button
+    class="absolute top-4 right-4 text-stone-400 hover:text-brand-pink transition-colors text-4xl font-bold z-50"
+    onclick="closeLightbox()"
+    aria-label="Закрыть"
+  >
+    &times;
+  </button>
+
+  <div class="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center">
+    <img
+      id="lightbox-image"
+      src=""
+      alt=""
+      class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+      onclick="event.stopPropagation()"
+    />
+  </div>
+  <p id="lightbox-caption" class="absolute bottom-8 left-0 right-0 text-center text-white text-lg font-semibold" />
+</div>
+
+<script>
+  // Функция открытия lightbox
+  function openLightbox(imageSrc: string, caption: string) {
+    const lightbox = document.getElementById('lightbox') as HTMLElement;
+    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+    const lightboxCaption = document.getElementById('lightbox-caption') as HTMLElement;
+
+    if (lightbox && lightboxImage && lightboxCaption) {
+      lightboxImage.src = imageSrc;
+      lightboxCaption.textContent = caption;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  // Функция закрытия lightbox
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox') as HTMLElement;
+    if (lightbox) {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Закрытие по ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+
+  // Навешиваем обработчики на карточки
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('[data-lightbox-target]');
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const imageSrc = card.getAttribute('data-lightbox-target');
+        const caption = card.getAttribute('data-caption');
+
+        if (imageSrc) {
+          openLightbox(imageSrc, caption || '');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  #lightbox {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
