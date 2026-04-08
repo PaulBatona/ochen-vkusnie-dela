@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="45" fill="#0A0A0A" stroke="#EB00FF" stroke-width="3"/>
-  <text x="50" y="55" font-size="40" text-anchor="middle" fill="#EB00FF" font-family="cursive">О</text>
+  <circle cx="50" cy="50" r="48" fill="#EB00FF"/>
+  <text x="50" y="62" font-size="50" text-anchor="middle" fill="white" font-family="cursive" font-weight="bold">О</text>
 </svg>

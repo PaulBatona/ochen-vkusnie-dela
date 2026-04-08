@@ -175,3 +175,6 @@ npm run build
 - [Astro Docs](https://docs.astro.build)
 - [Tailwind CSS Docs](https://tailwindcss.com/docs)
 - [Astro Image Component](https://docs.astro.build/en/guides/images/)
+
+## Qwen Added Memories
+- Пользователь хочет сначала проверять изменения, а потом просить закоммитить вручную. Не коммитить автоматически без явной просьбы.
